@@ -2,7 +2,7 @@ version: '3.8'
 services:
   bot:
     build: .
-    image: viikkotiedotebot:latest
+    image: viikkotiedotebot_test:latest
     volumes:
       - ./logs:/bot/logs:rw
     env_file:
