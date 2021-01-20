@@ -53,6 +53,7 @@ def main():
     disp.add_handler(CommandHandler("start", start))
     disp.add_handler(CommandHandler("help", info))
     disp.add_handler(CommandHandler("weekly", weekly))
+    disp.add_handler(CommandHandler("viikkotiedote", viikkotiedote))
     disp.add_handler(CommandHandler("preview", preview))
     disp.add_error_handler(error)
 
