@@ -1,0 +1,6 @@
+# Environment
+files
+
+# Auxiliary files
+.idea
+__pycache__
