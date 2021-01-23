@@ -20,20 +20,19 @@ def info(update, context):
 
 
 def viikkotiedote(update, context):
-    message = dp.news_message_fi()
+    message = dp.news_message_fi(dp.current_news)
     update.message.reply_text(message, parse_mode="html")
 
 
 def weekly(update, context):
-    message = dp.news_message_en()
+    message = dp.news_message_en(dp.current_news_en)
     update.message.reply_text(message, parse_mode="html")
 
 
 def preview(update, context):
-    data = dp.next_week_news()
-    headers = ["-" + data["_default"][key]["header"] for key in data["_default"]]
-    summary = "\n\n".join(headers)
-    update.message.reply_text("Viikkotiedote / Weekly News\n\n" + summary)
+    message_fi = dp.news_message_fi(dp.next_week_news)
+    message_en = dp.news_message_en(dp.next_week_news_en)
+    update.message.reply_text(message_fi+"\n\n"+message_en, parse_mode="html")
 
 
 def error(update, context):
@@ -49,7 +48,6 @@ def main():
     disp.add_handler(CommandHandler("start", start))
     disp.add_handler(CommandHandler("help", info))
     disp.add_handler(CommandHandler("weekly", weekly))
-    disp.add_handler(CommandHandler("html", weekly_html))
     disp.add_handler(CommandHandler("viikkotiedote", viikkotiedote))
     disp.add_handler(CommandHandler("preview", preview))
     disp.add_error_handler(error)

@@ -37,14 +37,14 @@ def next_week_news_en():
     return next_week_news(weekly_base_url_en)
 
 
-def news_message_fi():
+def news_message_fi(news_function):
     def filter_by_date(date):
         event_date = datetime.date(date[2], date[1], date[0])
         today = datetime.date.today()
         return event_date - today < datetime.timedelta(days=8)
 
     try:
-        data = current_news()["_default"].values()
+        data = news_function()["_default"].values()
     except KeyError:
         return "Tiedote on tyhjä"
 
@@ -71,14 +71,14 @@ def news_message_fi():
     return message
 
 
-def news_message_en():
+def news_message_en(news_function):
     def filter_by_date(date):
         event_date = datetime.date(date[2], date[1], date[0])
         today = datetime.date.today()
         return event_date - today < datetime.timedelta(days=8)
 
     try:
-        data = current_news()["_default"].values()
+        data = news_function()["_default"].values()
     except KeyError:
         return "No weekly news"
 
