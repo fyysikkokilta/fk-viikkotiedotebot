@@ -98,7 +98,7 @@ def news_message_en(news_function):
             )
     guild_events_title = "<b>Guild's events</b>"
     other_events_title = "\n<b>Other events</b>"
-    news_link = "\n<a href=\"{}\">Read the news</a>".format(weekly_news_url_en)
+    news_link = "\n<a href=\"{}\">Read the Guild News</a>".format(weekly_news_url_en)
 
     message = "\n".join([guild_events_title] + headers["guild_soon"] + headers["guild"] +
                         [other_events_title] + headers["other"] + [news_link])

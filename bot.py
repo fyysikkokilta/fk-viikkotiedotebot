@@ -5,6 +5,7 @@ import data_processing as dp
 
 token = os.getenv("TIEDOTE_BOT_TOKEN")
 log_path = os.getenv("TIEDOTE_BOT_LOG_PATH")
+admins = os.getenv("TIEDOTE_BOT_ADMINS").split(",")
 
 logger = Logger(log_path).logger
 logger.debug(os.getcwd())
@@ -30,9 +31,12 @@ def weekly(update, context):
 
 
 def preview(update, context):
-    message_fi = dp.news_message_fi(dp.next_week_news)
-    message_en = dp.news_message_en(dp.next_week_news_en)
-    update.message.reply_text(message_fi+"\n\n"+message_en, parse_mode="html")
+    if (update.message.chat.type == "private") & (update.message.from_user.username in admins):
+        message_fi = dp.news_message_fi(dp.next_week_news)
+        message_en = dp.news_message_en(dp.next_week_news_en)
+        update.message.reply_text(message_fi+"\n\n"+message_en, parse_mode="html")
+    else:
+        update.message.reply_text("<a>&#x1F440;</a>", parse_mode="html")
 
 
 def error(update, context):
