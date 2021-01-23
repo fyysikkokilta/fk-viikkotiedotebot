@@ -12,7 +12,7 @@ class Logger:
         try:
             len(log_path)
         except (NameError, TypeError) as inputError:
-            log_path = os.path.join('files', 'fk-viikkotiedotebot.log')
+            log_path = os.path.join('logs', 'fk-viikkotiedotebot.log')
 
         fh = logging.FileHandler(log_path)
         fh.setLevel(logging.INFO)

@@ -1,6 +1,7 @@
 # Environment
-files
+env
+logs
 
-# Auxiliary files
+# Auxiliary env
 .idea
 __pycache__
