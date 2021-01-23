@@ -5,6 +5,5 @@ services:
     image: viikkotiedotebot:latest
     volumes:
       - ./logs:/bot/logs:rw
-    environment:
-      - TIEDOTE_BOT_TOKEN=${TIEDOTE_BOT_TOKEN}
-      - TIEDOTE_BOT_ADMINS=${TIEDOTE_BOT_ADMINS}
+    env_file:
+      - ./env/bot.env
