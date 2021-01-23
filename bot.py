@@ -1,4 +1,5 @@
 import os
+import time
 from telegram.ext import (Updater, CommandHandler)
 from bot_log import Logger
 import data_processing as dp
@@ -44,10 +45,22 @@ def error(update, context):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 
+def flush_messages(bot):
+    """Flushes the messages send to the bot during downtime so that the bot
+    does not start spamming when it gets online again."""
+
+    updates = bot.get_updates()
+    while updates:
+        print("Flushing {} messages.".format(len(updates)))
+        time.sleep(1)
+        updates = bot.get_updates(updates[-1]["update_id"] + 1)
+
+
 def main():
     updater = Updater(token)
-
     disp = updater.dispatcher
+
+    flush_messages(updater.bot)
 
     disp.add_handler(CommandHandler("start", start))
     disp.add_handler(CommandHandler("help", info))
