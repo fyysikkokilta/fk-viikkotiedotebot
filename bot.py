@@ -20,21 +20,12 @@ def info(update, context):
 
 
 def viikkotiedote(update, context):
-    data = dp.current_news()
-    headers = ["-" + data["_default"][key]["header"] for key in data["_default"]]
-    summary = "\n\n".join(headers)
-    update.message.reply_text("Viikkotiedote\n\n" + summary)
+    message = dp.news_message_fi()
+    update.message.reply_text(message, parse_mode="html")
 
 
 def weekly(update, context):
-    data = dp.current_news_en()
-    headers = ["-" + data["_default"][key]["header"] for key in data["_default"]]
-    summary = "\n\n".join(headers)
-    update.message.reply_text("Weekly News\n\n"+summary)
-
-
-def weekly_html(update, context):
-    message = dp.news_message_fi()
+    message = dp.news_message_en()
     update.message.reply_text(message, parse_mode="html")
 
 

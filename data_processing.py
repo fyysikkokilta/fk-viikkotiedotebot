@@ -62,10 +62,43 @@ def news_message_fi():
             headers["other"].append(
                 "<a>&#x2022; {}</a>".format(event["header"])
             )
-    print(headers)
     guild_events_title = "<b>Killan tapahtumat</b>"
     other_events_title = "\n<b>Muut</b>"
     news_link = "\n<a href=\"{}\">Lue viikkotiedote</a>".format(weekly_news_url)
+
+    message = "\n".join([guild_events_title] + headers["guild_soon"] + headers["guild"] +
+                        [other_events_title] + headers["other"] + [news_link])
+    return message
+
+
+def news_message_en():
+    def filter_by_date(date):
+        event_date = datetime.date(date[2], date[1], date[0])
+        today = datetime.date.today()
+        return event_date - today < datetime.timedelta(days=8)
+
+    try:
+        data = current_news()["_default"].values()
+    except KeyError:
+        return "No weekly news"
+
+    headers = {"guild_soon": [], "guild": [], "other": []}
+    for event in data:
+        if (event["category"] == "Guild's events") & (filter_by_date(event["date"])):
+            headers["guild_soon"].append(
+                "<a>&#x23F0; {}</a>".format(event["header"])
+            )
+        elif event["category"] == "Guild's events":
+            headers["guild"].append(
+                "<a>&#x2022; {}</a>".format(event["header"])
+            )
+        else:
+            headers["other"].append(
+                "<a>&#x2022; {}</a>".format(event["header"])
+            )
+    guild_events_title = "<b>Guild's events</b>"
+    other_events_title = "\n<b>Other events</b>"
+    news_link = "\n<a href=\"{}\">Read the news</a>".format(weekly_news_url_en)
 
     message = "\n".join([guild_events_title] + headers["guild_soon"] + headers["guild"] +
                         [other_events_title] + headers["other"] + [news_link])
