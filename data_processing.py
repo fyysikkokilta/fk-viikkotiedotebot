@@ -6,6 +6,9 @@ weekly_base_url = "https://www.fyysikkokilta.fi/wp-content/uploads/"\
 weekly_base_url_en = "https://www.fyysikkokilta.fi/wp-content/uploads/"\
                      "viikkotiedote-data/{year}/{week}-en.json"
 
+weekly_news_url = "https://www.fyysikkokilta.fi/viikkotiedote/"
+weekly_news_url_en = "https://www.fyysikkokilta.fi/en/viikkotiedote/"
+
 
 def get_weekly_data(year, week_number, base_url=weekly_base_url):
     week_string = "week{:02}".format(week_number)
@@ -60,3 +63,10 @@ def news_message_fi():
                 "<a>&#x2022; {}</a>".format(event["header"])
             )
     print(headers)
+    guild_events_title = "<b>Killan tapahtumat</b>"
+    other_events_title = "\n<b>Muut</b>"
+    news_link = "\n<a href=\"{}\">Lue viikkotiedote</a>".format(weekly_news_url)
+
+    message = "\n".join([guild_events_title] + headers["guild_soon"] + headers["guild"] +
+                        [other_events_title] + headers["other"] + [news_link])
+    return message

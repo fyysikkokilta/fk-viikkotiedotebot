@@ -33,6 +33,11 @@ def weekly(update, context):
     update.message.reply_text("Weekly News\n\n"+summary)
 
 
+def weekly_html(update, context):
+    message = dp.news_message_fi()
+    update.message.reply_text(message, parse_mode="html")
+
+
 def preview(update, context):
     data = dp.next_week_news()
     headers = ["-" + data["_default"][key]["header"] for key in data["_default"]]
@@ -53,6 +58,7 @@ def main():
     disp.add_handler(CommandHandler("start", start))
     disp.add_handler(CommandHandler("help", info))
     disp.add_handler(CommandHandler("weekly", weekly))
+    disp.add_handler(CommandHandler("html", weekly_html))
     disp.add_handler(CommandHandler("viikkotiedote", viikkotiedote))
     disp.add_handler(CommandHandler("preview", preview))
     disp.add_error_handler(error)
