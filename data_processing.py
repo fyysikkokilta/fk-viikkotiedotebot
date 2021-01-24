@@ -1,5 +1,6 @@
 import requests
 import datetime
+from json.decoder import JSONDecodeError
 
 weekly_base_url = "https://www.fyysikkokilta.fi/wp-content/uploads/"\
                      "viikkotiedote-data/{year}/{week}.json"
@@ -13,7 +14,11 @@ weekly_news_url_en = "https://www.fyysikkokilta.fi/en/viikkotiedote/"
 def get_weekly_data(year, week_number, base_url=weekly_base_url):
     week_string = "week{:02}".format(week_number)
     url = base_url.format(year=year, week=week_string)
-    return requests.get(url).json()
+    try:
+        data = requests.get(url).json()
+    except JSONDecodeError:
+        data = {}
+    return data
 
 
 def current_news(base_url=weekly_base_url):
