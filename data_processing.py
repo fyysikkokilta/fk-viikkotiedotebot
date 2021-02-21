@@ -1,5 +1,6 @@
 import requests
 import datetime
+import json
 from json.decoder import JSONDecodeError
 
 weekly_base_url = "https://www.fyysikkokilta.fi/wp-content/uploads/"\
@@ -9,6 +10,20 @@ weekly_base_url_en = "https://www.fyysikkokilta.fi/wp-content/uploads/"\
 
 weekly_news_url = "https://www.fyysikkokilta.fi/viikkotiedote/"
 weekly_news_url_en = "https://www.fyysikkokilta.fi/en/viikkotiedote/"
+
+
+def get_schedule_data(filename: str):
+    """Data contains chat ids and message languages for scheduled messages
+
+    Data format:
+    messages: {
+        [{ 'chat_id': 9827432, 'language': 'en'},
+        { 'chat_id': 0972345, 'language': 'fi'}]
+    }
+    """
+    with open(filename) as schedule_json:
+        data = json.load(schedule_json)
+    return data['messages']
 
 
 def get_weekly_data(year, week_number, base_url=weekly_base_url):

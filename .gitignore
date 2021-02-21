@@ -5,3 +5,6 @@ logs
 # Auxiliary env
 .idea
 __pycache__
+
+# Config
+schedule.txt

@@ -1,5 +1,6 @@
 import os
 import time
+import datetime
 from telegram.ext import (Updater, CommandHandler)
 from bot_log import Logger
 import data_processing as dp
@@ -10,6 +11,8 @@ admins = os.getenv("TIEDOTE_BOT_ADMINS").split(",")
 
 logger = Logger(log_path).logger
 logger.debug(os.getcwd())
+
+schedule = dp.get_schedule_data('schedule.txt')
 
 
 def start(update, context):
@@ -40,6 +43,15 @@ def preview(update, context):
         update.message.reply_text("<a>&#x1F440;</a>", parse_mode="html")
 
 
+def scheduled(context):
+    logger.debug('Running scheduled messages...')
+    for message in schedule:
+        if (message['language'] == 'fi') & (dp.current_news() != {}):
+            context.bot.send_message(message['chat_id'], dp.news_message_fi(dp.current_news), parse_mode="html")
+        elif (message['language'] == 'en') & (dp.current_news_en() != {}):
+            context.bot.send_message(message['chat_id'], dp.news_message_en(dp.current_news_en), parse_mode="html")
+
+
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
@@ -59,6 +71,7 @@ def flush_messages(bot):
 def main():
     updater = Updater(token)
     disp = updater.dispatcher
+    jq = updater.job_queue
 
     flush_messages(updater.bot)
 
@@ -67,8 +80,12 @@ def main():
     disp.add_handler(CommandHandler("weekly", weekly))
     disp.add_handler(CommandHandler("viikkotiedote", viikkotiedote))
     disp.add_handler(CommandHandler("preview", preview))
-    disp.add_error_handler(error)
 
+    jq.run_repeating(scheduled, context=updater.bot, 
+                     interval=datetime.timedelta(weeks=1),
+                     first=datetime.datetime(2021, 2, 22, hour=7))
+
+    disp.add_error_handler(error)
     updater.start_polling()
 
 
