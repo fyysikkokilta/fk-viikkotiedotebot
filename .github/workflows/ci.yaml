@@ -1,0 +1,26 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.pythonLocation }}-pip-${{ hashFiles('**/setup.py') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.pythonLocation }}-pip-
+      - name: Install dependencies
+        run: |
+          pip install pylint
+          pip install -r requirements.txt
+      - name: Run pylint
+        run: find . -type f -name "*.py" | xargs pylint
