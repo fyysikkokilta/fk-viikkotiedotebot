@@ -11,7 +11,7 @@ class Logger:
         # Create file handler for logs
         try:
             len(log_path)
-        except (NameError, TypeError) as inputError:
+        except (NameError, TypeError):
             log_path = os.path.join('logs', 'fk-viikkotiedotebot.log')
 
         fh = logging.FileHandler(log_path)

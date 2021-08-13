@@ -1,7 +1,8 @@
-import requests
 import datetime
 import json
 from json.decoder import JSONDecodeError
+
+import requests
 
 weekly_base_url = "https://www.fyysikkokilta.fi/wp-content/uploads/"\
                      "viikkotiedote-data/{year}/{week}.json"
