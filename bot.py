@@ -81,7 +81,7 @@ def main():
     disp.add_handler(CommandHandler("viikkotiedote", viikkotiedote))
     disp.add_handler(CommandHandler("preview", preview))
 
-    jq.run_repeating(scheduled, context=updater.bot, 
+    jq.run_repeating(scheduled, context=updater.bot,
                      interval=datetime.timedelta(weeks=1),
                      first=datetime.datetime(2021, 2, 22, hour=7))
 
