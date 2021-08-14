@@ -4,6 +4,10 @@ The bot also features the following commands:
 - Viewing the weekly news at any time in either Finnish or English
 - Previewing the next week's news (only for admins)
 
+## Example
+
+![Example output](https://user-images.githubusercontent.com/7860886/129439552-33341bc9-7403-4da5-89c2-40a85424ce04.png)
+
 ## Running the bot
 You can run the bot by building a Python environment and running it there or by running the preconfigured docker-compose service.
 Common steps:
