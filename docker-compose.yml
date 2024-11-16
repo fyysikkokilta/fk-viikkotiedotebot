@@ -1,9 +1,15 @@
 version: '3.4'
 services:
   bot:
-    build: .
-    image: viikkotiedotebot:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
     volumes:
       - ./logs:/bot/logs:rw
     env_file:
       - ./env/bot.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
