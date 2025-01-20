@@ -44,12 +44,13 @@ Example contents of the `bot.env`-file:
     TIEDOTE_BOT_ADMINS=username1,username2
     COMMUNICATIONS_OFFICER=name
     ```
-2. Start the bot by running
+2. (optional) Set a symlink from wordpress viikkotiedote folder to mails in root. This way generated weekly news are directly added to Wordpress.
+3. Start the bot by running
     ```commandline
     docker-compose -f docker-compose.yml up -d
     ```
    
-3. Stop the bot and clean the environment by running
+4. Stop the bot and clean the environment by running
     ```commandline
     docker-compose -f docker-compose.yml down
     ```
