@@ -382,10 +382,10 @@ async def footer_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def generate_bulletin(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await is_admin(context.bot, update):
         return ConversationHandler.END
-    await update.message.reply_text(
-        f"Here is the bulletin files for the week {get_week_number()}."
-    )
     bulletin_files = create_bulletin()
+    await update.message.reply_text(
+        f"Bulletin files for the week {get_week_number()} generated and added to Wordpress succesfully."
+    )
     week = get_week_number()
     await context.bot.send_document(
         chat_id=update.message.chat_id,
