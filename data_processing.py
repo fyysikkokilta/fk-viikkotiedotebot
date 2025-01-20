@@ -43,7 +43,9 @@ def get_weekly_data(year, week_number, base_url=weekly_base_url_old):
         else:
             with open(url, "r+", encoding="utf8", newline="\n") as f:
                 return json.loads(f.read())
-    except JSONDecodeError:
+    except JSONDecodeError:  # OLD REMOVE LATER
+        data = {}  # OLD REMOVE LATER
+    except FileNotFoundError:
         data = {}
     return data
 
