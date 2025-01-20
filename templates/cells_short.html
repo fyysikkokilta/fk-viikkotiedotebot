@@ -1,0 +1,30 @@
+{% block toc_headers %}
+{% for (cat, (this_week, following_week)) in category_events %}
+<tr>
+  <td style="color: #201E1E; font-family: Lora, Georgia; font-size: 24px;">
+    <i>{{ cat }}</i></br>
+  </td>
+</tr>
+
+{% block this_week scoped %}
+  {% if this_week %}
+      {% for entry in this_week %}
+        • <b>{{ entry.header|e }}</b></br>
+      {% endfor %}
+  {% endif %}
+{% endblock this_week %}
+
+
+{% block following_week scoped %}
+  {% if following_week %}
+      {% for entry in following_week %}
+        • <b>{{ entry.header|e }}</b></br>
+      {% endfor %}
+  {% endif %}
+{% endblock following_week %}
+</br>
+{% endfor %}
+
+<a href="https://www.fyysikkokilta.fi/viikkotiedote/">Lue Kilta tiedottaa</a>
+
+{% endblock %}

@@ -2,6 +2,7 @@
 This bot summarizes the weekly news of the Guild of Physics by parsing the raw contents of current news and feeding them to designated telegram groups on a schedule.
 The bot also features the following commands:
 - Viewing the weekly news at any time in either Finnish or English
+- Creating the next week's news (for admins)
 - Previewing the next week's news (only for admins)
 
 ## Example
@@ -41,6 +42,7 @@ Example contents of the `bot.env`-file:
     ```commandline
     TIEDOTE_BOT_TOKEN=gmU8lKWwuxIIKju
     TIEDOTE_BOT_ADMINS=username1,username2
+    COMMUNICATIONS_OFFICER=name
     ```
 2. Start the bot by running
     ```commandline

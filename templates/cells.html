@@ -1,0 +1,139 @@
+{% extends "toc_and_content.html" %}
+{% block this_week scoped %}
+  {% if this_week %}
+  {% if this_week[0].category != "Yleistä" and this_week[0].category != "Opinnot" %}
+  <tr>
+    <td style="padding: 10px 0px 0px 0px; font-family: Lora, Georgia; font-size: 17px;">
+        <i>Tällä viikolla</i>
+    </td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td style="padding: 5px 0px 5px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px;">
+      <ul style="margin: 0; list-style-type: square;">
+      {% for entry in this_week %}
+        <li><a href="#{{ entry.id }}" style="color: #ff8a04; text-decoration:none; font-weight: bold;">{{ entry.header|e }}</a></li>
+      {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+{% endblock this_week %}
+
+
+{% block following_week scoped %}
+  {% if following_week %}
+  {% if following_week[0].category != "Yleistä" and following_week[0].category != "Opinnot" %}
+  <tr>
+    <td style="padding: 0px 0px 0px 0px; font-family: Lora, Georgia; font-size: 17px;">
+        <i>Tulevilla viikoilla</i>
+    </td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td style="padding: 5px 0px 20px 0px; font-family: Source Sans Pro, Open Sans, Calibri;; font-size: 16px;">
+      <ul style="margin: 0; list-style-type: square;">
+      {% for entry in following_week %}
+        <li><a href="#{{ entry.id }}" style="color: #ff8a04; text-decoration:none; font-weight: bold;"> {{ entry.header|e }}</a></li>
+      {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+{% endblock following_week %}
+
+
+{% block events scoped %}
+{% for entry in this_week %}
+  <tr>
+    <td id="{{entry.id}}" style="padding: 10px 0px 20px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px;">
+      <b>{{ entry.header|e }}</b><br/>
+      {% if entry.image|length %}
+          <img alt="Salli kuvat nähdäksesi tämän" width="auto" height="auto" src="{{ entry.image }}" style="margin:10px 0px; border-width: 1px; border-color: #201E1E; border-style: solid; max-width:350px;"><br/>
+      {% endif %}
+      {{ entry.content|safe|e|urlize(70, true) }}
+    </td>
+  </tr>
+{% endfor %}
+{% for entry in following_week %}
+  <tr>
+    <td id="{{entry.id}}" style="padding: 10px 0px 20px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px;">
+      <b>{{ entry.header|e }}</b><br/>
+      {% if entry.image|length %}
+          <img alt="Salli kuvat nähdäksesi tämän" width="auto" height="auto" src="{{ entry.image }}" style="margin:10px 0px; border-width: 1px; border-color: #201E1E; border-style: solid; max-width:350px;"><br/>
+      {% endif %}
+      {{ entry.content|safe|e|urlize(70, true) }}
+    </td>
+  </tr>
+{% endfor %}
+{% endblock events %}
+
+
+{% block this_week_en scoped %}
+{% if this_week %}
+  {% if this_week[0].category != "General" and this_week[0].category != "Studies" %}
+  <tr>
+    <td style="padding: 10px 0px 0px 0px; font-family: Lora, Georgia; font-size: 17px;">
+        <i>This week</i>
+    </td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td style="padding: 5px 0px 5px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px;">
+      <ul style="margin: 0; list-style-type: square;">
+      {% for entry in this_week %}
+        <li><a href="#{{ entry.id }}_en" style="color: #ff8a04; text-decoration:none; font-weight: bold;">{{ entry.header|e }}</a></li>
+      {% endfor %}
+      </ul>
+    </td>
+  </tr>
+{% endif %}
+{% endblock this_week_en %}
+
+
+{% block following_week_en scoped %}
+{% if following_week %}
+  {% if following_week[0].category != "General" and following_week[0].category != "Studies" %}
+  <tr>
+    <td style="padding: 0px 0px 0px 0px; font-family: Lora, Georgia; font-size: 17px;">
+        <i>Following weeks</i>
+    </td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td style="padding: 5px 0px 20px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px;">
+      <ul style="margin: 0; list-style-type: square;">
+      {% for entry in following_week %}
+        <li><a href="#{{ entry.id }}_en" style="color: #ff8a04; text-decoration:none; font-weight: bold;">{{ entry.header|e }}</a></li>
+      {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endif %}
+{% endblock following_week_en %}
+
+
+{% block events_en scoped %}
+{% for entry in this_week %}
+  <tr>
+    <td id="{{entry.id}}_en" style="padding: 10px 0px 20px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px;">
+      <b>{{ entry.header|e }}</b><br/>
+      {% if entry.image|length %}
+          <img alt="Please enable images" width="auto" height="auto" src="{{ entry.image }}" style="margin:10px 0px; border-width: 1px; border-color: #201E1E; border-style: solid; max-width:350px;"><br/>
+      {% endif %}
+      {{ entry.content|safe|e|urlize(70, true) }}
+    </td>
+  </tr>
+  {% endfor %}
+  {% for entry in following_week %}
+  <tr>
+    <td id="{{entry.id}}_en" style="padding: 10px 0px 20px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px;">
+      <b>{{ entry.header|e }}</b><br/>
+      {% if entry.image|length %}
+          <img alt="Please enable images" width="auto" height="auto" src="{{ entry.image }}" style="margin:10px 0px; border-width: 1px; border-color: #201E1E; border-style: solid; max-width:350px;"><br/>
+      {% endif %}
+      {{ entry.content|safe|e|urlize(70, true) }}
+    </td>
+  </tr>
+{% endfor %}
+{% endblock events_en %}

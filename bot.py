@@ -1,10 +1,18 @@
 import os
 import time
 import datetime
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, ContextTypes, filters
 from telegram import Bot, Update
 from bot_log import Logger
 import data_processing as dp
+from weekly_maker import (
+    new_entry_handler,
+    remove_entry_handler,
+    set_header_handler,
+    set_footer_image_handler,
+    generate_bulletin_handler,
+    is_admin,
+)
 
 token = os.getenv("TIEDOTE_BOT_TOKEN")
 log_path = os.getenv("TIEDOTE_BOT_LOG_PATH")
@@ -38,16 +46,11 @@ async def weekly(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def preview(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if (update.message.chat.type == "private") & (
-        update.message.from_user.username in admins
-    ):
-        message_fi = dp.news_message_fi(dp.next_week_news)
-        message_en = dp.news_message_en(dp.next_week_news_en)
-        await update.message.reply_text(
-            message_fi + "\n\n" + message_en, parse_mode="html"
-        )
-    else:
-        await update.message.reply_text("<a>&#x1F440;</a>", parse_mode="html")
+    if not await is_admin(context.bot, update):
+        return
+    message_fi = dp.news_message_fi(dp.next_week_news)
+    message_en = dp.news_message_en(dp.next_week_news_en)
+    await update.message.reply_text(message_fi + "\n\n" + message_en, parse_mode="html")
 
 
 async def scheduled(context: ContextTypes.DEFAULT_TYPE):
@@ -93,7 +96,15 @@ async def post_init(app: Application):
     app.add_handler(CommandHandler("help", info))
     app.add_handler(CommandHandler("weekly", weekly))
     app.add_handler(CommandHandler("viikkotiedote", viikkotiedote))
-    app.add_handler(CommandHandler("preview", preview))
+    app.add_handler(
+        CommandHandler("preview", preview, filters=filters.ChatType.PRIVATE)
+    )
+
+    app.add_handler(new_entry_handler)
+    app.add_handler(remove_entry_handler)
+    app.add_handler(set_header_handler)
+    app.add_handler(set_footer_image_handler)
+    app.add_handler(generate_bulletin_handler)
 
     jq.run_repeating(
         scheduled,

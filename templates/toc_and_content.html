@@ -1,0 +1,63 @@
+{% extends "bulletin.html" %}
+
+{% block header %}
+<tr>
+  <td width="75%" align="left" valign="bottom" style="color: #201E1E; font-family: Lora, Georgia; font-size: 30px; padding: 8px 25px 8px 25px;">
+    <span style="font-size: 2px; "><img alt="Guild Phi" height="87%" src="{{header_image}}" style="float: right; padding: 8px;">
+    <br style="display: block; content: ""; margin-top: 0px;"></span>
+    <b>{{ header|safe }}</b>
+  </td>
+</tr>
+{% endblock %}
+
+{% block ingress %}
+<tr>
+  <td style="padding: 15px 30px 25px 30px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px; text-align: left;">
+    {{ ingress|safe }}
+  </td>
+</tr>
+{% endblock %}
+
+{% block toc %}
+{% for (cat, (this_week, following_week)) in category_events %}
+<tr>
+  <td style="color: #201E1E; font-family: Lora, Georgia; font-size: 24px;">
+    <i>{{ cat }}</i>
+  </td>
+</tr>
+{% block this_week scoped %}{% endblock %}
+{% block following_week scoped %}{% endblock %}
+{% endfor %}
+{% endblock %}
+
+{% block content %}
+{% for (cat, (this_week, following_week)) in category_events %}
+{% block events scoped %}{% endblock %}
+{% endfor %}
+{% endblock %}
+
+{% block ingress_en %}
+<tr>
+  <td style="padding: 15px 30px 25px 30px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px; text-align: left;">
+    {{ ingress_en|safe }}
+  </td>
+</tr>
+{% endblock %}
+
+{% block toc_en %}
+{% for (cat, (this_week, following_week)) in category_events_en %}
+<tr>
+  <td style="color: #201E1E; font-family: Lora, Georgia; font-size: 24px;">
+    <i>{{ cat }}</i>
+  </td>
+</tr>
+{% block this_week_en scoped %}{% endblock %}
+{% block following_week_en scoped %}{% endblock %}
+{% endfor %}
+{% endblock %}
+
+{% block content_en %}
+{% for (cat, (this_week, following_week)) in category_events_en %}
+{% block events_en scoped %}{% endblock %}
+{% endfor %}
+{% endblock %}

@@ -8,3 +8,9 @@ __pycache__
 
 # Config
 schedule.txt
+
+# Data
+data/*
+
+# Mails
+mails/*

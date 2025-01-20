@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{{ title }}</title>
+  </head>
+  <body style="margin: 0; padding: 0;">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="padding: 30px 0 30px 0;">
+          <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; border: 2px solid #cccccc;">
+            <tr>
+              <td style="padding: 50px 30px 50px 30px;">
+
+
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+		  {% block header %}{% endblock %}
+                  <tr>
+                    <td align="right" style="padding: 10px 0px 10px 0px; font-family: Lora, Georgia; font-size: 16px;">
+                        <!--a href="#in_english" style="color: #ff8a04; text-decoration:none;"><b>In English below</b></a-->
+                    </td>
+                  </tr>
+		  {% block ingress_en %}{% endblock %}
+		  {% block toc_en %}{% endblock %}
+		  {% block content_en %}{% endblock %}
+                  <td style="padding: 10px 0px 25px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px; text-align: center;">
+                    <span style="color: #ff8a04; text-decoration:underline; font-weight:bold;">Doodle of the week</span><br><br>
+                    <img alt="Salli kuvat nähdäksesi tämä / Please enable images" width="auto" height="auto" src="{{footer_image_en}}"
+											style="border-width: 1px; border-color: #201E1E; border-style: solid; max-width:400px;">
+                    <br>
+                    <br>
+			<span style="font-size: 13px; color: #737373;">
+			    Viestintävastaava / Communications Officer <br>
+			    {{ communications_officer }} <br>
+			    <a href="https://t.me/{{ telegram_nick }}" style="color: #ff8a04; text-decoration:none;">@{{ telegram_nick }}</a> <br>
+			    <a href="mailto:{{ email }}" style="color: #ff8a04; text-decoration:none;">{{ email }}</a><br><br>
+                            To unsubscribe from this mailing list, send an email to <a href="mailto:english+unsubscribe@fyysikkokilta.fi" style="color: #ff8a04; text-decoration:none;">english+unsubscribe@fyysikkokilta.fi</a>
+		        </span>
+                  </td>
+                </table>
+
+
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
