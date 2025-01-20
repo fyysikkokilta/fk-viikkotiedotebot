@@ -4,6 +4,8 @@ from json.decoder import JSONDecodeError
 
 import requests
 
+from weekly_maker.utils import get_week_number, get_year
+
 weekly_base_url = "data/{year}/{week}.json"
 weekly_base_url_en = "data/{year}/{week}-en.json"
 
@@ -73,9 +75,8 @@ def current_news_en():
 
 
 def next_week_news(base_url=weekly_base_url):
-    today = datetime.date.today()
-    next_week = today + datetime.timedelta(days=7)
-    year, week_number = next_week.isocalendar()[0:2]
+    week_number = get_week_number()
+    year = get_year()
     data = get_weekly_data(year, week_number, base_url)
 
     if data == {}:  # OLD REMOVE LATER
