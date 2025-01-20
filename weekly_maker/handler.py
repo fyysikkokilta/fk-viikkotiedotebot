@@ -397,11 +397,6 @@ async def generate_bulletin(update: Update, context: ContextTypes.DEFAULT_TYPE):
         document=BytesIO(bulletin_files[1].encode("utf-8")),
         filename=f"kilta-tiedottaa-viikko-{week:02}-en.html",
     )
-    await context.bot.send_document(
-        chat_id=update.message.chat_id,
-        document=BytesIO(bulletin_files[2].encode("utf-8")),
-        filename=f"kilta-tiedottaa-viikko-{week:02}-short.html",
-    )
 
 
 async def preview(update: Update, context: ContextTypes.DEFAULT_TYPE):

@@ -49,6 +49,7 @@ def create_bulletin():
     template = env.get_template("cells.html")
     template_en = env.get_template("cells_en.html")
     template_short = env.get_template("cells_short.html")
+    template_short_en = env.get_template("cells_short_en.html")
     variables = {
         "title": "Fyysikkokillan viikkotiedote",
         "header": f"{week}/{year}<br>Kilta tiedottaa<br>Guild News",
@@ -68,6 +69,7 @@ def create_bulletin():
     tiedote = template.render(variables)
     tiedote_en = template_en.render(variables)
     tiedote_short = template_short.render(variables)
+    tiedote_short_en = template_short_en.render(variables)
 
     os.makedirs(os.path.dirname(f"mails/{year}"), exist_ok=True)
     with open(
@@ -94,4 +96,12 @@ def create_bulletin():
     ) as f:
         f.write(tiedote_short)
 
-    return tiedote, tiedote_en, tiedote_short
+    with open(
+        f"mails/{year}/kilta-tiedottaa-viikko-{week:02}-short-en.html",
+        "w",
+        encoding="utf8",
+        newline="\n",
+    ) as f:
+        f.write(tiedote_short_en)
+
+    return tiedote, tiedote_en, tiedote_short, tiedote_short_en
