@@ -27,6 +27,7 @@ from weekly_maker.crud import (
     update_footer_image_en,
 )
 from weekly_maker.utils import CATEGORIES, CATEGORIES_EN, get_week_number
+import data_processing as dp
 
 LANGUAGE_NEW, CATEGORY, TITLE, CONTENT, DATE, IMAGE, CONFIRM_NEW = [
     "LANGUAGE_NEW",
@@ -403,6 +404,14 @@ async def generate_bulletin(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def preview(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not await is_admin(context.bot, update):
+        return ConversationHandler.END
+    message_fi = dp.news_message_fi(dp.next_week_news)
+    message_en = dp.news_message_en(dp.next_week_news_en)
+    await update.message.reply_text(message_fi + "\n\n" + message_en, parse_mode="html")
+
+
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Cancelled the current operation.")
     return ConversationHandler.END
@@ -449,4 +458,8 @@ set_footer_image_handler = ConversationHandler(
     fallbacks=[CommandHandler("cancel", cancel)],
 )
 
-generate_bulletin_handler = CommandHandler("generate_bulletin", generate_bulletin)
+generate_bulletin_handler = CommandHandler(
+    "generate_bulletin", generate_bulletin, filters=filters.ChatType.PRIVATE
+)
+
+preview_handler = CommandHandler("preview", preview, filters=filters.ChatType.PRIVATE)

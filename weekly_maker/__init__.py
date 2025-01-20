@@ -4,7 +4,7 @@ from weekly_maker.handler import (
     set_header_handler,
     set_footer_image_handler,
     generate_bulletin_handler,
-    is_admin,
+    preview_handler,
 )
 
 from weekly_maker.utils import get_week_number
@@ -15,6 +15,6 @@ __all__ = [
     "set_header_handler",
     "set_footer_image_handler",
     "generate_bulletin_handler",
-    "is_admin",
+    "preview_handler",
     "get_week_number",
 ]

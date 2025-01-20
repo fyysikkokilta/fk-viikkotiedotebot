@@ -11,7 +11,7 @@ from weekly_maker import (
     set_header_handler,
     set_footer_image_handler,
     generate_bulletin_handler,
-    is_admin,
+    preview_handler,
 )
 
 token = os.getenv("TIEDOTE_BOT_TOKEN")
@@ -43,14 +43,6 @@ async def viikkotiedote(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def weekly(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = dp.news_message_en(dp.current_news_en)
     await update.message.reply_text(message, parse_mode="html")
-
-
-async def preview(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await is_admin(context.bot, update):
-        return
-    message_fi = dp.news_message_fi(dp.next_week_news)
-    message_en = dp.news_message_en(dp.next_week_news_en)
-    await update.message.reply_text(message_fi + "\n\n" + message_en, parse_mode="html")
 
 
 async def scheduled(context: ContextTypes.DEFAULT_TYPE):
@@ -96,15 +88,13 @@ async def post_init(app: Application):
     app.add_handler(CommandHandler("help", info))
     app.add_handler(CommandHandler("weekly", weekly))
     app.add_handler(CommandHandler("viikkotiedote", viikkotiedote))
-    app.add_handler(
-        CommandHandler("preview", preview, filters=filters.ChatType.PRIVATE)
-    )
 
     app.add_handler(new_entry_handler)
     app.add_handler(remove_entry_handler)
     app.add_handler(set_header_handler)
     app.add_handler(set_footer_image_handler)
     app.add_handler(generate_bulletin_handler)
+    app.add_handler(preview_handler)
 
     jq.run_repeating(
         scheduled,
