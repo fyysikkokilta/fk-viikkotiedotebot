@@ -125,7 +125,7 @@ async def title(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def content(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_data = context.chat_data
     chat_data["content"] = (
-        update.message.text_html
+        update.message.text_html.replace("\n", "<br>") if update.message.text else ""
     )  # Use text_html to preserve the formatting
 
     await update.message.reply_text(
