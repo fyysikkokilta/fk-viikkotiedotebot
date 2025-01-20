@@ -386,21 +386,21 @@ async def generate_bulletin(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"Here is the bulletin files for the week {get_week_number()}."
     )
     bulletin_files = create_bulletin()
-    week = f"{get_week_number()}"
+    week = get_week_number()
     await context.bot.send_document(
         chat_id=update.message.chat_id,
         document=BytesIO(bulletin_files[0].encode("utf-8")),
-        filename=f"kilta-tiedottaa-viikko-" + week + ".html",
+        filename=f"kilta-tiedottaa-viikko-{week:02}.html",
     )
     await context.bot.send_document(
         chat_id=update.message.chat_id,
         document=BytesIO(bulletin_files[1].encode("utf-8")),
-        filename=f"kilta-tiedottaa-viikko-" + week + "-en.html",
+        filename=f"kilta-tiedottaa-viikko-{week:02}-en.html",
     )
     await context.bot.send_document(
         chat_id=update.message.chat_id,
         document=BytesIO(bulletin_files[2].encode("utf-8")),
-        filename=f"kilta-tiedottaa-viikko-" + week + "-short.html",
+        filename=f"kilta-tiedottaa-viikko-{week:02}-short.html",
     )
 
 

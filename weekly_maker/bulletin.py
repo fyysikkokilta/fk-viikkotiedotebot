@@ -17,7 +17,7 @@ from weekly_maker.crud import get_weekly, get_weekly_en
 
 def create_bulletin():
 
-    week = f"{get_week_number()}"
+    week = get_week_number()
 
     year = f"{get_year()}"
 
@@ -51,7 +51,7 @@ def create_bulletin():
     template_short = env.get_template("cells_short.html")
     variables = {
         "title": "Fyysikkokillan viikkotiedote",
-        "header": week + "/" + year + "<br>Kilta tiedottaa<br>Guild News",
+        "header": f"{week}/{year}<br>Kilta tiedottaa<br>Guild News",
         "header_image": header_image,
         "ingress": weekly["header"],
         "ingress_en": weekly_en["header"],
@@ -62,7 +62,7 @@ def create_bulletin():
         "communications_officer": communications_officer,
         "telegram_nick": "viestintavastaava",
         "email": "viestintavastaava@fyysikkokilta.fi",
-        "week": week,
+        "week": f"{week}",
     }
 
     tiedote = template.render(variables)
@@ -71,7 +71,7 @@ def create_bulletin():
 
     os.makedirs(os.path.dirname(f"mails/{year}"), exist_ok=True)
     with open(
-        f"mails/{year}/kilta-tiedottaa-viikko-{week}.html",
+        f"mails/{year}/kilta-tiedottaa-viikko-{week:02}.html",
         "w",
         encoding="utf8",
         newline="\n",
@@ -79,7 +79,7 @@ def create_bulletin():
         f.write(tiedote)
 
     with open(
-        f"mails/{year}/kilta-tiedottaa-viikko-{week}-en.html",
+        f"mails/{year}/kilta-tiedottaa-viikko-{week:02}-en.html",
         "w",
         encoding="utf8",
         newline="\n",
@@ -87,7 +87,7 @@ def create_bulletin():
         f.write(tiedote_en)
 
     with open(
-        f"mails/{year}/kilta-tiedottaa-viikko-{week}-short.html",
+        f"mails/{year}/kilta-tiedottaa-viikko-{week:02}-short.html",
         "w",
         encoding="utf8",
         newline="\n",
