@@ -69,8 +69,9 @@ def create_bulletin():
     tiedote_en = template_en.render(variables)
     tiedote_short = template_short.render(variables)
 
+    os.makedirs(os.path.dirname(f"mails/{year}"), exist_ok=True)
     with open(
-        "mails/kilta-tiedottaa-viikko-" + week + ".html",
+        f"mails/{year}/kilta-tiedottaa-viikko-{week}.html",
         "w",
         encoding="utf8",
         newline="\n",
@@ -78,7 +79,7 @@ def create_bulletin():
         f.write(tiedote)
 
     with open(
-        "mails/kilta-tiedottaa-viikko-" + week + "-en.html",
+        f"mails/{year}/kilta-tiedottaa-viikko-{week}-en.html",
         "w",
         encoding="utf8",
         newline="\n",
@@ -86,7 +87,7 @@ def create_bulletin():
         f.write(tiedote_en)
 
     with open(
-        "mails/kilta-tiedottaa-viikko-" + week + "-short.html",
+        f"mails/{year}/kilta-tiedottaa-viikko-{week}-short.html",
         "w",
         encoding="utf8",
         newline="\n",

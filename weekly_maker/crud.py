@@ -1,6 +1,6 @@
 import json
 import os
-from weekly_maker.utils import get_week_number
+from weekly_maker.utils import get_week_number, get_year
 
 
 class Entry:
@@ -20,21 +20,26 @@ class Weekly:
 
 def _save_weekly(content):
     week_number = get_week_number()
-    file_name = f"data/week{week_number:02}.json"
+    year = get_year()
+    os.makedirs(os.path.dirname(f"data/{year}"), exist_ok=True)
+    file_name = f"data/{year}/week{week_number:02}.json"
     with open(file_name, "w", encoding="utf8", newline="\n") as f:
         f.write(json.dumps(content))
 
 
 def _save_weekly_en(content):
     week_number = get_week_number()
-    file_name = f"data/week{week_number:02}-en.json"
+    year = get_year()
+    os.makedirs(os.path.dirname(f"data/{year}"), exist_ok=True)
+    file_name = f"data/{year}/week{week_number:02}-en.json"
     with open(file_name, "w", encoding="utf8", newline="\n") as f:
         f.write(json.dumps(content))
 
 
 def _load_weekly():
     week_number = get_week_number()
-    file_name = f"data/week{week_number:02}.json"
+    year = get_year()
+    file_name = f"data/{year}/week{week_number:02}.json"
     if not os.path.exists(file_name):
         return {
             "header": "",
@@ -47,7 +52,8 @@ def _load_weekly():
 
 def _load_weekly_en():
     week_number = get_week_number()
-    file_name = f"data/week{week_number:02}-en.json"
+    year = get_year()
+    file_name = f"data/{year}/week{week_number:02}-en.json"
     if not os.path.exists(file_name):
         return {
             "header": "",
