@@ -36,28 +36,32 @@ async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def viikkotiedote(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message = dp.news_message_fi(dp.current_news)
+    message = dp.current_news()
+    if message == "":
+        message = "Tiedote on tyhjä"
     await update.message.reply_text(message, parse_mode="html")
 
 
 async def weekly(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message = dp.news_message_en(dp.current_news_en)
+    message = dp.current_news_en()
+    if message == "":
+        message = "No weekly news"
     await update.message.reply_text(message, parse_mode="html")
 
 
 async def scheduled(context: ContextTypes.DEFAULT_TYPE):
     logger.debug("Running scheduled messages...")
     for message in schedule:
-        if (message["language"] == "fi") & (dp.current_news() != {}):
+        if (message["language"] == "fi") & (dp.current_news() != ""):
             await context.bot.send_message(
                 message["chat_id"],
-                dp.news_message_fi(dp.current_news),
+                dp.current_news(),
                 parse_mode="html",
             )
-        elif (message["language"] == "en") & (dp.current_news_en() != {}):
+        elif (message["language"] == "en") & (dp.current_news_en() != ""):
             await context.bot.send_message(
                 message["chat_id"],
-                dp.news_message_en(dp.current_news_en),
+                dp.current_news_en(),
                 parse_mode="html",
             )
 

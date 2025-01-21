@@ -13,7 +13,7 @@ from telegram.ext import (
     ContextTypes,
 )
 
-from weekly_maker.bulletin import create_bulletin
+from weekly_maker.bulletin import create_bulletin, create_preview
 from weekly_maker.crud import (
     add_entry,
     add_entry_en,
@@ -402,8 +402,7 @@ async def generate_bulletin(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def preview(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await is_admin(context.bot, update):
         return ConversationHandler.END
-    message_fi = dp.news_message_fi(dp.next_week_news)
-    message_en = dp.news_message_en(dp.next_week_news_en)
+    message_fi, message_en = create_preview()
     await update.message.reply_text(message_fi + "\n\n" + message_en, parse_mode="html")
 
 

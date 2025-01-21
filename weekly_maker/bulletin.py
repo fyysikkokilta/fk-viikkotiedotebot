@@ -52,6 +52,9 @@ def create_bulletin():
     template_short_en = env.get_template("cells_short_en.html")
     variables = {
         "title": "Fyysikkokillan viikkotiedote",
+        "title_en": "Guild of Physics Weekly News",
+        "short_title": f"Kilta tiedottaa {week}/{year}",
+        "short_title_en": f"Guild News {week}/{year}",
         "header": f"{week}/{year}<br>Kilta tiedottaa<br>Guild News",
         "header_image": header_image,
         "ingress": weekly["header"],
@@ -105,3 +108,43 @@ def create_bulletin():
         f.write(tiedote_short_en)
 
     return tiedote, tiedote_en, tiedote_short, tiedote_short_en
+
+
+def create_preview():
+    week = get_week_number()
+
+    year = f"{get_year()}"
+
+    # Define template behaviour.
+    env = Environment(
+        loader=FileSystemLoader("templates"),
+        trim_blocks=True,
+        lstrip_blocks=True,
+    )
+
+    weekly = get_weekly()
+    weekly_en = get_weekly_en()
+
+    # Sort first by category to enable grouping.
+    entries = weekly["entries"]
+    entries_en = weekly_en["entries"]
+    entries = sorted(entries, key=partial(category_sort, cats=CATEGORIES))
+    entries_en = sorted(entries_en, key=partial(category_sort, cats=CATEGORIES_EN))
+
+    # Group entries.
+    pairs = grouper(entries, CATEGORIES)
+    pairs_en = grouper(entries_en, CATEGORIES_EN)
+
+    template_short = env.get_template("cells_short.html")
+    template_short_en = env.get_template("cells_short_en.html")
+    variables = {
+        "short_title": f"Kilta tiedottaa {week}/{year}",
+        "short_title_en": f"Guild News {week}/{year}",
+        "category_events": pairs,
+        "category_events_en": pairs_en,
+    }
+
+    tiedote_short = template_short.render(variables)
+    tiedote_short_en = template_short_en.render(variables)
+
+    return tiedote_short, tiedote_short_en
