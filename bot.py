@@ -1,7 +1,7 @@
 import os
 import time
 import datetime
-from telegram.ext import Application, CommandHandler, ContextTypes, filters
+from telegram.ext import Application, CommandHandler, ContextTypes
 from telegram import Bot, Update
 from bot_log import Logger
 import data_processing as dp
@@ -77,7 +77,7 @@ async def flush_messages(bot: Bot):
 
     updates = await bot.get_updates()
     while updates:
-        print("Flushing {} messages.".format(len(updates)))
+        print(f"Flushing {len(updates)} messages.")
         time.sleep(1)
         updates = await bot.get_updates(updates[-1]["update_id"] + 1)
 
@@ -85,7 +85,7 @@ async def flush_messages(bot: Bot):
 async def post_init(app: Application):
     jq = app.job_queue
     if jq is None:
-        raise Exception("JobQueue is None")
+        raise ValueError("JobQueue is None")
     await flush_messages(app.bot)
 
     app.add_handler(CommandHandler("start", start))

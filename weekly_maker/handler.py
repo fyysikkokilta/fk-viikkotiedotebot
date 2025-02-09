@@ -27,7 +27,6 @@ from weekly_maker.crud import (
     update_footer_image_en,
 )
 from weekly_maker.utils import CATEGORIES, CATEGORIES_EN, get_week_number
-import data_processing as dp
 
 LANGUAGE_NEW, CATEGORY, TITLE, CONTENT, DATE, IMAGE, CONFIRM_NEW = [
     "LANGUAGE_NEW",
@@ -76,7 +75,10 @@ async def new_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     await update.message.reply_text(
-        f"You are about to add a new entry to the weekly news for the week number {get_week_number()}. Are you adding it to the Finnish or English version?",
+        (
+            f"You are about to add a new entry to the weekly news for the week number "
+            f"{get_week_number()}. Are you adding it to the Finnish or English version?"
+        ),
         reply_markup=keyboard,
     )
 
@@ -135,9 +137,9 @@ async def content(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_data = context.chat_data
-    date = update.message.text
+    date_text = update.message.text
     try:
-        day, month, year = map(int, date.split("."))
+        day, month, year = map(int, date_text.split("."))
         chat_data["date"] = (day, month, year)
     except ValueError:
         await update.message.reply_text(
@@ -156,8 +158,8 @@ async def image(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.text == "/skip":
         chat_data["image"] = ""
     elif len(update.message.photo) > 0:
-        image = await update.message.photo[-1].get_file()
-        f = BytesIO(await image.download_as_bytearray())
+        image_data = await update.message.photo[-1].get_file()
+        f = BytesIO(await image_data.download_as_bytearray())
         chat_data["image"] = "data:image/png;base64, " + base64.b64encode(
             f.getvalue()
         ).decode("utf-8")
@@ -216,7 +218,10 @@ async def remove_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     await update.message.reply_text(
-        f"You are about to remove an entry from the weekly news for the week number {get_week_number()}. Are you removing it from the Finnish or English version?",
+        (
+            f"You are about to remove an entry from the weekly news for the week number "
+            f"{get_week_number()}. Are you removing it from the Finnish or English version?"
+        ),
         reply_markup=keyboard,
     )
 
@@ -244,7 +249,7 @@ async def language_remove(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ]
     )
 
-    await query.edit_message_text(f"Choose the entry to remove", reply_markup=keyboard)
+    await query.edit_message_text("Choose the entry to remove", reply_markup=keyboard)
 
     return CHOOSE_ENTRY
 
@@ -300,7 +305,10 @@ async def set_header(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     await update.message.reply_text(
-        f"You are about to set the header for the weekly news for the week number {get_week_number()}. Are you setting it for the Finnish or English version?",
+        (
+            f"You are about to set the header for the weekly news for the week number "
+            f"{get_week_number()}. Are you setting it for the Finnish or English version?"
+        ),
         reply_markup=keyboard,
     )
 
@@ -319,13 +327,13 @@ async def language_header(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def header(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_data = context.chat_data
-    header = update.message.text
+    header_text = update.message.text
 
     await update.message.reply_text("Header set successfully!")
     if chat_data["language"] == "fi":
-        update_header(header)
+        update_header(header_text)
     else:
-        update_header_en(header)
+        update_header_en(header_text)
     return ConversationHandler.END
 
 
@@ -342,7 +350,10 @@ async def set_footer_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     await update.message.reply_text(
-        f"You are about to set the footer image for the weekly news for the week number {get_week_number()}. Are you setting it for the Finnish or English version?",
+        (
+            f"You are about to set the footer image for the weekly news for the week number "
+            f"{get_week_number()}. Are you setting it for the Finnish or English version?"
+        ),
         reply_markup=keyboard,
     )
 
@@ -361,17 +372,17 @@ async def language_footer(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def footer_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_data = context.chat_data
-    image = await update.message.photo[-1].get_file()
-    f = BytesIO(await image.download_as_bytearray())
-    footer_image = "data:image/png;base64, " + base64.b64encode(f.getvalue()).decode(
-        "utf-8"
-    )
+    image_data = await update.message.photo[-1].get_file()
+    f = BytesIO(await image_data.download_as_bytearray())
+    footer_image_data = "data:image/png;base64, " + base64.b64encode(
+        f.getvalue()
+    ).decode("utf-8")
 
     await update.message.reply_text("Footer image set successfully!")
     if chat_data["language"] == "fi":
-        update_footer_image(footer_image)
+        update_footer_image(footer_image_data)
     else:
-        update_footer_image_en(footer_image)
+        update_footer_image_en(footer_image_data)
     return ConversationHandler.END
 
 

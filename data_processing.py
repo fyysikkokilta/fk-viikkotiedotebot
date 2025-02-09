@@ -14,7 +14,7 @@ def get_schedule_data(filename: str):
         { 'chat_id': 0972345, 'language': 'fi'}]
     }
     """
-    with open(filename) as schedule_json:
+    with open(filename, "r+", encoding="utf8", newline="\n") as schedule_json:
         data = json.load(schedule_json)
     return data["messages"]
 
