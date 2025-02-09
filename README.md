@@ -34,7 +34,7 @@ Common steps:
 ### Using docker-compose
 (pre) If you have created these configurations before and have made changes to the bot files, you should rebuild the image by running 
     ```
-    docker-compose -f docker-compose.yml build
+    docker compose -f docker-compose.yml build
     ```
 
 1. Set the token and usernames of bot admins in a `bot.env` file in a subfolder `fk-viikkotiedotebot/env`.
@@ -47,12 +47,12 @@ Example contents of the `bot.env`-file:
 2. (optional) Set a symlink from wordpress viikkotiedote folder to mails in root. This way generated weekly news are directly added to Wordpress.
 3. Start the bot by running
     ```commandline
-    docker-compose -f docker-compose.yml up -d
+    docker compose -f docker-compose.yml up -d
     ```
    
 4. Stop the bot and clean the environment by running
     ```commandline
-    docker-compose -f docker-compose.yml down
+    docker compose -f docker-compose.yml down
     ```
 
 

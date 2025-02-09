@@ -94,10 +94,8 @@ async def language_new(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.edit_message_text("Choose the category of the entry")
     keyboard = InlineKeyboardMarkup(
         [
-            [
-                InlineKeyboardButton(text=category, callback_data=category)
-                for category in categories
-            ]
+            [InlineKeyboardButton(text=category, callback_data=category)]
+            for category in categories
         ]
     )
     await query.edit_message_reply_markup(keyboard)
@@ -241,10 +239,8 @@ async def language_remove(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     keyboard = InlineKeyboardMarkup(
         [
-            [
-                InlineKeyboardButton(text=entry["header"], callback_data=str(i))
-                for i, entry in enumerate(entries)
-            ]
+            [InlineKeyboardButton(text=entry["header"], callback_data=str(i))]
+            for i, entry in enumerate(entries)
         ]
     )
 
