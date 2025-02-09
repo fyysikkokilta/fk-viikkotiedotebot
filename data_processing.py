@@ -1,8 +1,6 @@
 import datetime
 import json
 
-from weekly_maker.utils import get_week_number, get_year
-
 weekly_base_url = "mails/{year}/kilta-tiedottaa-viikko-{week:02}-short.html"
 weekly_base_url_en = "mails/{year}/kilta-tiedottaa-viikko-{week:02}-short-en.html"
 
