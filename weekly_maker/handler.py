@@ -12,6 +12,7 @@ from telegram.ext import (
     filters,
     ContextTypes,
 )
+from PIL import Image
 
 from weekly_maker.bulletin import create_bulletin, create_preview
 from weekly_maker.crud import (
@@ -160,8 +161,17 @@ async def image(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif len(update.message.photo) > 0:
         image_data = await update.message.photo[-1].get_file()
         f = BytesIO(await image_data.download_as_bytearray())
+
+        img = Image.open(f)
+
+        width_percent = 350 / float(img.size[0])
+        new_height = int((float(img.size[1]) * float(width_percent)))
+        img = img.resize((350, new_height), Image.Resampling.LANCZOS)
+
+        output = BytesIO()
+        img.save(output, format="PNG")
         chat_data["image"] = "data:image/png;base64, " + base64.b64encode(
-            f.getvalue()
+            output.getvalue()
         ).decode("utf-8")
     else:
         return IMAGE
@@ -374,8 +384,19 @@ async def footer_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_data = context.chat_data
     image_data = await update.message.photo[-1].get_file()
     f = BytesIO(await image_data.download_as_bytearray())
+
+    # Open and resize image
+    img = Image.open(f)
+    # Calculate new height maintaining aspect ratio
+    width_percent = 400 / float(img.size[0])
+    new_height = int((float(img.size[1]) * float(width_percent)))
+    img = img.resize((400, new_height), Image.Resampling.LANCZOS)
+
+    # Save resized image to BytesIO
+    output = BytesIO()
+    img.save(output, format="PNG")
     footer_image_data = "data:image/png;base64, " + base64.b64encode(
-        f.getvalue()
+        output.getvalue()
     ).decode("utf-8")
 
     await update.message.reply_text("Footer image set successfully!")

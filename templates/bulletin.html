@@ -23,9 +23,11 @@
 		  {% block toc %}{% endblock %}
 		  {% block content %}{% endblock %}
                   <td style="padding: 10px 0px 25px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px; text-align: center;">
+                    {% if footer_image|length %}
                     <span style="color: #ff8a04; text-decoration:underline; font-weight:bold;">Viikon töherrys</span><br><br>
                     <img alt="Salli kuvat nähdäksesi tämä" width="auto" height="auto" src="{{footer_image}}" style="border-width: 1px; border-color: #201E1E; border-style: solid; max-width:400px;">
-									</td>
+                    {% endif %}
+                  </td>
                   <tr id="in_english">
                     <td align="center" style="padding: 50px 0px 50px 0px;font-family: Lora, Georgia; font-size: 16px;">
                       <hr style="padding: 0; border: none; height: 1px;
@@ -40,8 +42,10 @@
 		  {% block toc_en %}{% endblock %}
 		  {% block content_en %}{% endblock %}
                   <td style="padding: 10px 0px 25px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px; text-align: center;">
+                    {% if footer_image_en|length %}
                     <span style="color: #ff8a04; text-decoration:underline; font-weight:bold;">Doodle of the week</span><br><br>
                     <img alt="Please enable images" width="auto" height="auto" src="{{footer_image_en}}" style="border-width: 1px; border-color: #201E1E; border-style: solid; max-width:400px;">
+                    {% endif %}
                     <br>
                     <br>
       <span style="font-size: 13px; color: #737373;">

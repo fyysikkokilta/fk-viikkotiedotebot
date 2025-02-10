@@ -25,9 +25,11 @@
 		  {% block toc_en %}{% endblock %}
 		  {% block content_en %}{% endblock %}
                   <td style="padding: 10px 0px 25px 0px; font-family: Source Sans Pro, Open Sans, Calibri; font-size: 16px; text-align: center;">
+                    {% if footer_image_en|length %}
                     <span style="color: #ff8a04; text-decoration:underline; font-weight:bold;">Doodle of the week</span><br><br>
                     <img alt="Salli kuvat nähdäksesi tämä / Please enable images" width="auto" height="auto" src="{{footer_image_en}}"
 											style="border-width: 1px; border-color: #201E1E; border-style: solid; max-width:400px;">
+                    {% endif %}
                     <br>
                     <br>
 			<span style="font-size: 13px; color: #737373;">
