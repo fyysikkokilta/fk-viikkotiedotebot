@@ -1,6 +1,6 @@
 requests==2.32.2
 python-telegram-bot==21.10.0
 python-telegram-bot[job-queue]==21.10.0
-jinja2==3.1.5
+jinja2==3.1.6
 python-slugify==8.0.4
 pillow==11.1.0
