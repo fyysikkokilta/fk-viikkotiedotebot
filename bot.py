@@ -75,7 +75,12 @@ async def schedule_weekly_message(context: ContextTypes.DEFAULT_TYPE):
     logger.debug("Running scheduled messages...")
     context.job_queue.run_custom(
         scheduled,
-        {"trigger": "cron", "hour": "7-15"},
+        {
+            "id": "weekly_message",
+            "trigger": "cron",
+            "hour": "7-15",
+            "replace_existing": True,
+        },
     )
 
 
