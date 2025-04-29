@@ -50,20 +50,33 @@ async def weekly(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def scheduled(context: ContextTypes.DEFAULT_TYPE):
-    logger.debug("Running scheduled messages...")
+    finnish_message = dp.current_news()
+    english_message = dp.current_news_en()
     for message in schedule:
-        if (message["language"] == "fi") & (dp.current_news() != ""):
+        if (message["language"] == "fi") & (finnish_message != ""):
             await context.bot.send_message(
                 message["chat_id"],
-                dp.current_news(),
+                finnish_message,
                 parse_mode="html",
             )
-        elif (message["language"] == "en") & (dp.current_news_en() != ""):
+            logger.debug(f"Sent Finnish weekly to {message['chat_id']}")
+        elif (message["language"] == "en") & (english_message != ""):
             await context.bot.send_message(
                 message["chat_id"],
-                dp.current_news_en(),
+                english_message,
                 parse_mode="html",
             )
+            logger.debug(f"Sent English weekly to {message['chat_id']}")
+    if finnish_message != "" and english_message != "":
+        context.job.schedule_removal()
+
+
+async def schedule_weekly_message(context: ContextTypes.DEFAULT_TYPE):
+    logger.debug("Running scheduled messages...")
+    context.job_queue.run_custom(
+        scheduled,
+        {"trigger": "cron", "hour": "7-15"},
+    )
 
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -101,9 +114,9 @@ async def post_init(app: Application):
     app.add_handler(preview_handler)
 
     jq.run_repeating(
-        scheduled,
+        schedule_weekly_message,
         interval=datetime.timedelta(weeks=1),
-        first=datetime.datetime(2021, 2, 22, hour=7),
+        first=datetime.datetime(2021, 2, 22, hour=0),
     )
 
     app.add_error_handler(error)

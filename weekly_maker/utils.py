@@ -8,7 +8,7 @@ CATEGORIES_EN = ["Studies", "Guild's events", "Other events", "General"]
 
 
 def get_week_number():
-    return int((date.today() + timedelta(days=6)).strftime("%V"))
+    return int((date.today() + timedelta(days=4)).strftime("%V"))
 
 
 def get_year():
