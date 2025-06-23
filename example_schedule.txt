@@ -1,1 +1,0 @@
-{"messages": [{"chat_id": -8473262859263, "language": "fi"}, {"chat_id": -89375372901, "language": "en"}]}

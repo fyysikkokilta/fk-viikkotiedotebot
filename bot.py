@@ -16,10 +16,10 @@ from weekly_maker import (
 
 token = os.getenv("TIEDOTE_BOT_TOKEN")
 admins = os.getenv("TIEDOTE_BOT_ADMINS").split(",")
+finnish_channels = os.getenv("FINNISH_CHANNELS").split(",")
+english_channels = os.getenv("ENGLISH_CHANNELS").split(",")
 
 logger = Logger().logger
-
-schedule = dp.get_schedule_data("schedule.txt")
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -50,21 +50,22 @@ async def weekly(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def scheduled(context: ContextTypes.DEFAULT_TYPE):
     finnish_message = dp.current_news()
     english_message = dp.current_news_en()
-    for message in schedule:
-        if (message["language"] == "fi") & (finnish_message != ""):
+    for channel in finnish_channels:
+        if finnish_message != "":
             await context.bot.send_message(
-                message["chat_id"],
+                channel,
                 finnish_message,
                 parse_mode="html",
             )
-            logger.debug("Sent Finnish weekly to %s", message["chat_id"])
-        elif (message["language"] == "en") & (english_message != ""):
+            logger.debug("Sent Finnish weekly to %s", channel)
+    for channel in english_channels:
+        if english_message != "":
             await context.bot.send_message(
-                message["chat_id"],
+                channel,
                 english_message,
                 parse_mode="html",
             )
-            logger.debug("Sent English weekly to %s", message["chat_id"])
+            logger.debug("Sent English weekly to %s", channel)
     if finnish_message != "" and english_message != "":
         context.job.schedule_removal()
 

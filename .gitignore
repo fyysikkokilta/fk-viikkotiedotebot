@@ -1,13 +1,9 @@
 # Environment
-env
-logs
+bot.env
 
 # Auxiliary env
 .idea
 __pycache__
-
-# Config
-schedule.txt
 
 # Data
 data
