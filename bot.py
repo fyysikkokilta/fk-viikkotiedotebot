@@ -15,11 +15,9 @@ from weekly_maker import (
 )
 
 token = os.getenv("TIEDOTE_BOT_TOKEN")
-log_path = os.getenv("TIEDOTE_BOT_LOG_PATH")
 admins = os.getenv("TIEDOTE_BOT_ADMINS").split(",")
 
-logger = Logger(log_path).logger
-logger.debug(os.getcwd())
+logger = Logger().logger
 
 schedule = dp.get_schedule_data("schedule.txt")
 

@@ -3,7 +3,6 @@ services:
     image: ghcr.io/fyysikkokilta/fk-viikkotiedotebot:latest
     restart: always
     volumes:
-      - ./logs:/bot/logs:rw
       - ./data:/bot/data:rw
       - ./mails:/bot/mails:rw
     env_file:

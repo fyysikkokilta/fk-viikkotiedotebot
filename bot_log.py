@@ -1,38 +1,29 @@
 import logging
-import os
+import sys
 
 
 class Logger:
-    def __init__(self, log_path):
+    def __init__(self):
         # Enable logging
-        logger = logging.getLogger('fk-viikkotiedotebot')
+        logger = logging.getLogger("fk-viikkotiedotebot")
         logger.setLevel(logging.DEBUG)
 
-        # Create file handler for logs
-        try:
-            len(log_path)
-        except (NameError, TypeError):
-            log_path = os.path.join('logs', 'fk-viikkotiedotebot.log')
-
-        fh = logging.FileHandler(log_path)
-        fh.setLevel(logging.INFO)
-
-        # Create stream handler to output errors to console
-        ch = logging.StreamHandler()
+        # Create stream handler to output to console (sysout)
+        ch = logging.StreamHandler(sys.stdout)
         ch.setLevel(logging.DEBUG)
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        fh.setFormatter(formatter)
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
         ch.setFormatter(formatter)
 
-        logger.addHandler(fh)
         logger.addHandler(ch)
 
         self.logger = logger
 
 
-if __name__ == '__main__':
-    test_logger = Logger(None).logger
-    test_logger.debug('testdebug')
-    test_logger.info('testinfo')
-    test_logger.error('testerror')
+if __name__ == "__main__":
+    test_logger = Logger().logger
+    test_logger.debug("testdebug")
+    test_logger.info("testinfo")
+    test_logger.error("testerror")
