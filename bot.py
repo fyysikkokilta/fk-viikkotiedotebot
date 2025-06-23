@@ -59,14 +59,14 @@ async def scheduled(context: ContextTypes.DEFAULT_TYPE):
                 finnish_message,
                 parse_mode="html",
             )
-            logger.debug(f"Sent Finnish weekly to {message['chat_id']}")
+            logger.debug("Sent Finnish weekly to %s", message["chat_id"])
         elif (message["language"] == "en") & (english_message != ""):
             await context.bot.send_message(
                 message["chat_id"],
                 english_message,
                 parse_mode="html",
             )
-            logger.debug(f"Sent English weekly to {message['chat_id']}")
+            logger.debug("Sent English weekly to %s", message["chat_id"])
     if finnish_message != "" and english_message != "":
         context.job.schedule_removal()
 
