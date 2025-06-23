@@ -1,8 +1,6 @@
 services:
   bot:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/fyysikkokilta/fk-viikkotiedotebot:latest
     restart: always
     volumes:
       - ./logs:/bot/logs:rw
