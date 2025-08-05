@@ -1,11 +1,6 @@
 # Bot for Weekly News Summaries
 
-This bot summarizes the weekly news of the Guild of Physics by parsing the raw contents of current news and feeding them to designated telegram groups on a schedule.
-The bot also features the following commands:
-
-- Viewing the weekly news at any time in either Finnish or English
-- Creating the next week's news (for admins)
-- Previewing the next week's news (only for admins)
+This bot summarizes the weekly news of the Guild of Physics by parsing the raw contents of current news. You can also view the newsletter later by sending the bot a command.
 
 ## Example
 
@@ -39,17 +34,13 @@ Common steps:
 ### Using docker-compose
 
 (pre) If you have created these configurations before and have made changes to the bot files, you should rebuild the image by running
-`  docker compose -f docker-compose.yml build
- `
+`docker compose -f docker-compose.yml build`
 
 1. Set the environment variables in a `bot.env`.
    Example contents of the `bot.env`-file:
    `commandline
-TIEDOTE_BOT_TOKEN=gmU8lKWwuxIIKju
-TIEDOTE_BOT_ADMINS=username1,username2
-COMMUNICATIONS_OFFICER=name
-FINNISH_CHANNELS="channelId1,channelId2"
-ENGLISH_CHANNELS="channelId3,channelId4"
+BOT_TOKEN=gmU8lKWwuxIIKju
+NEWSLETTER_BASE_URL=https://fyysikkokilta.fi/api/newsletter/telegram
 `
 2. (optional) Set a symlink from wordpress viikkotiedote folder to mails in root. This way generated weekly news are directly added to Wordpress.
 3. Start the bot by running

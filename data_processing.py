@@ -1,24 +1,22 @@
-import datetime
-
-weekly_base_url = "mails/{year}/kilta-tiedottaa-viikko-{week:02}-short.html"
-weekly_base_url_en = "mails/{year}/kilta-tiedottaa-viikko-{week:02}-short-en.html"
+import requests
 
 
-def get_weekly_data(year, week, base_url=weekly_base_url):
-    url = base_url.format(year=year, week=week)
-    try:
-        with open(url, "r+", encoding="utf8", newline="\n") as f:
-            data = f.read()
-    except FileNotFoundError:
-        data = ""
-    return data
-
-
-def current_news(base_url=weekly_base_url):
-    today = datetime.date.today()
-    year, week = today.isocalendar()[0:2]
-    return get_weekly_data(year, week, base_url)
-
-
-def current_news_en():
-    return current_news(weekly_base_url_en)
+def get_newsletter_data(base_url, lang):
+    url = f"{base_url}/api/newsletter/telegram?locale={lang}"
+    response = requests.get(url, timeout=10)
+    if response.status_code == 200:
+        data = response.json()
+        if data["newsletter"] is not None:
+            return data["message"]
+        else:
+            return "Viikkotiedote on tyhjä" if lang == "fi" else "Weekly news is empty"
+    elif response.status_code == 404:
+        return (
+            "Viikkotiedotetta ei löytynyt" if lang == "fi" else "Weekly news not found"
+        )
+    else:
+        return (
+            "Virhe viikkotiedotetta haettaessa"
+            if lang == "fi"
+            else "Error fetching weekly news"
+        )

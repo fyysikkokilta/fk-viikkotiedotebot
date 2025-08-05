@@ -1,23 +1,12 @@
 import os
 import time
-import datetime
 from telegram.ext import Application, CommandHandler, ContextTypes
 from telegram import Bot, Update
 from bot_log import Logger
 import data_processing as dp
-from weekly_maker import (
-    new_entry_handler,
-    remove_entry_handler,
-    set_header_handler,
-    set_footer_image_handler,
-    generate_bulletin_handler,
-    preview_handler,
-)
 
-token = os.getenv("TIEDOTE_BOT_TOKEN")
-admins = os.getenv("TIEDOTE_BOT_ADMINS").split(",")
-finnish_channels = os.getenv("FINNISH_CHANNELS").split(",")
-english_channels = os.getenv("ENGLISH_CHANNELS").split(",")
+token = os.getenv("BOT_TOKEN")
+base_url = os.getenv("NEWSLETTER_BASE_URL")
 
 logger = Logger().logger
 
@@ -27,60 +16,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "This bot summarizes the current weekly news\n\n"
-        "Preview-command might output spoilers"
-    )
+    await update.message.reply_text("This bot summarizes the current weekly news")
 
 
 async def viikkotiedote(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message = dp.current_news()
-    if message == "":
-        message = "Tiedote on tyhjä"
+    message = dp.get_newsletter_data(base_url, "fi")
     await update.message.reply_text(message, parse_mode="html")
 
 
 async def weekly(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message = dp.current_news_en()
-    if message == "":
-        message = "No weekly news"
+    message = dp.get_newsletter_data(base_url, "en")
     await update.message.reply_text(message, parse_mode="html")
-
-
-async def scheduled(context: ContextTypes.DEFAULT_TYPE):
-    finnish_message = dp.current_news()
-    english_message = dp.current_news_en()
-    for channel in finnish_channels:
-        if finnish_message != "":
-            await context.bot.send_message(
-                channel,
-                finnish_message,
-                parse_mode="html",
-            )
-            logger.debug("Sent Finnish weekly to %s", channel)
-    for channel in english_channels:
-        if english_message != "":
-            await context.bot.send_message(
-                channel,
-                english_message,
-                parse_mode="html",
-            )
-            logger.debug("Sent English weekly to %s", channel)
-    if finnish_message != "" and english_message != "":
-        context.job.schedule_removal()
-
-
-async def schedule_weekly_message(context: ContextTypes.DEFAULT_TYPE):
-    logger.debug("Running scheduled messages...")
-    context.job_queue.run_custom(
-        scheduled,
-        {
-            "id": "weekly_message",
-            "trigger": "cron",
-            "hour": "7-15",
-            "replace_existing": True,
-        },
-    )
 
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -100,28 +46,12 @@ async def flush_messages(bot: Bot):
 
 
 async def post_init(app: Application):
-    jq = app.job_queue
-    if jq is None:
-        raise ValueError("JobQueue is None")
     await flush_messages(app.bot)
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", info))
     app.add_handler(CommandHandler("weekly", weekly))
     app.add_handler(CommandHandler("viikkotiedote", viikkotiedote))
-
-    app.add_handler(new_entry_handler)
-    app.add_handler(remove_entry_handler)
-    app.add_handler(set_header_handler)
-    app.add_handler(set_footer_image_handler)
-    app.add_handler(generate_bulletin_handler)
-    app.add_handler(preview_handler)
-
-    jq.run_repeating(
-        schedule_weekly_message,
-        interval=datetime.timedelta(weeks=1),
-        first=datetime.datetime(2021, 2, 22, hour=0),
-    )
 
     app.add_error_handler(error)
 
