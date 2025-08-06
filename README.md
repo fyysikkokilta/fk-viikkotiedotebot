@@ -1,3 +1,5 @@
+# MERGED TO KILTISBOT
+
 # Bot for Weekly News Summaries
 
 This bot summarizes the weekly news of the Guild of Physics by parsing the raw contents of current news. You can also view the newsletter later by sending the bot a command.
